@@ -1,4 +1,4 @@
-import tkinter as tk
+import customtkinter as ctk
 
 from db import FinanceDB
 from app import FinanceAPP
@@ -6,7 +6,7 @@ from app import FinanceAPP
 def my_finance():
     financeDB = FinanceDB()
 
-    root = tk.Tk()
+    root = ctk.CTk()
 
     app = FinanceAPP(root, financeDB)
 

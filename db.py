@@ -6,15 +6,26 @@ class FinanceDB:
         self.connection = sqlite3.connect("finance.db")
         self.cursor = self.connection.cursor()
 
-        self.create_transactions() 
+        self.create_tables() 
 
 
-    def create_transactions(self):
+    def create_tables(self):
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS transactions(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 value REAL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                bank_id INTEGER,
+                description TEXT,
+
+                FOREIGN KEY (bank_id) REFERENCES banks (bank_id)
+            )
+        ''')
+
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS banks(
+                bank_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL
             )
         ''')
 
@@ -32,6 +43,6 @@ class FinanceDB:
         historic = self.cursor.fetchall()
         return historic
 
-    def insert_value(self, value):
-        self.cursor.execute('INSERT INTO transactions (value) VALUES (?)',(value,))
+    def insert_transaction(self, value, description=""):
+        self.cursor.execute('INSERT INTO transactions (value, description) VALUES (?,?)',(value, description))
         self.connection.commit()
