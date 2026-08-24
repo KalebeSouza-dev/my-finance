@@ -31,6 +31,8 @@ class FinanceDB:
 
         self.connection.commit()
 
+
+    # transactions
     def get_balance(self):
         self.cursor.execute('SELECT SUM(value) FROM transactions')
         balance = self.cursor.fetchone()[0]
@@ -38,7 +40,7 @@ class FinanceDB:
         if balance: return balance
         else: return 0.0
 
-    def get_historic(self, limit=5):
+    def get_historic(self, limit=10):
         self.cursor.execute('SELECT * FROM transactions ORDER BY created_at DESC LIMIT (?)', (limit,))
         historic = self.cursor.fetchall()
         return historic
@@ -46,3 +48,11 @@ class FinanceDB:
     def insert_transaction(self, value, description=""):
         self.cursor.execute('INSERT INTO transactions (value, description) VALUES (?,?)',(value, description))
         self.connection.commit()
+
+
+    # banks
+    def insert_bank(self, name):
+        self.cursor.execute('INSERT INTO banks (name) VALUES (?)', (name))
+        self.connection.commit()
+
+    def get_banks(self):
