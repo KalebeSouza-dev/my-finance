@@ -10,7 +10,9 @@ class FinanceAPP:
 
         # window
         root.title("My Finance") 
-        root.geometry("300x280") 
+        root.attributes('-type', 'splash')
+        root.geometry("300x230+20+20")
+        root.lower()
 
         self.lbl_balance = ctk.CTkLabel(root, text="Saldo: R$ 0.00", font=("sans-serif", 24, "bold")) 
         self.lbl_balance.pack(pady=10) 
@@ -29,11 +31,11 @@ class FinanceAPP:
         self.input_desc.bind("<Return>", self.add_transaction) 
         self.input_desc.bind("<KP_Enter>", self.add_transaction)
 
-        self.btn_add = ctk.CTkButton(root, text="Adicionar Transação", command=self.add_transaction) 
+        self.btn_add = ctk.CTkButton(root, text="Adicionar Transação", width=175, command=self.add_transaction) 
         self.btn_add.pack(pady=5) 
 
         # show history
-        self.btn_history = ctk.CTkButton(self.root, text="Mostrar Histórico", command=self.show_history) 
+        self.btn_history = ctk.CTkButton(self.root, text="Mostrar Histórico", width=175, command=self.show_history) 
         self.btn_history.pack(pady=5)
 
         self.update_balance() 
