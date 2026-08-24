@@ -1,3 +1,6 @@
 finance.db
 venv
 __pycache__
+/build
+/dist
+my-finance.spec
