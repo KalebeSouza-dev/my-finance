@@ -10,7 +10,7 @@ class FinanceAPP:
 
         # window
         root.title("My Finance") 
-        root.geometry("300x200") 
+        root.geometry("300x280") 
 
         self.lbl_balance = ctk.CTkLabel(root, text="Saldo: R$ 0.00", font=("sans-serif", 24, "bold")) 
         self.lbl_balance.pack(pady=10) 
@@ -30,7 +30,11 @@ class FinanceAPP:
         self.input_desc.bind("<KP_Enter>", self.add_transaction)
 
         self.btn_add = ctk.CTkButton(root, text="Adicionar Transação", command=self.add_transaction) 
-        self.btn_add.pack(pady=15) 
+        self.btn_add.pack(pady=5) 
+
+        # show history
+        self.btn_history = ctk.CTkButton(self.root, text="Mostrar Histórico", command=self.show_history) 
+        self.btn_history.pack(pady=5)
 
         self.update_balance() 
 
@@ -38,8 +42,6 @@ class FinanceAPP:
         balance = self.db.get_balance() 
         self.lbl_balance.configure(text=f"Saldo: R$ {balance:.2f}", font=("sans-serif", 24, "bold")) 
          
-        print(self.db.get_historic()) 
-
     def add_transaction(self, event=None): 
         try: 
             value = float(self.input_value.get()) 
@@ -56,3 +58,43 @@ class FinanceAPP:
             self.input_value.focus()
         except ValueError: 
             messagebox.showerror("Error", "Valor Inválido")
+
+    def show_history(self):
+        if getattr(self, "history_window", None) is not None and self.history_window.winfo_exists():
+            self.history_window.focus()
+            return
+        
+        self.history_window = ctk.CTkToplevel(self.root)
+        self.history_window.title("Transaction History")
+        self.history_window.geometry("550x300")
+        
+        self.history_window.focus()
+
+        scroll_frame = ctk.CTkScrollableFrame(self.history_window, width=500, height=250)
+        scroll_frame.pack(pady=10, padx=10, fill="both", expand=True)
+
+        history = self.db.get_historic(100)
+
+        if not history:
+            lbl_empty = ctk.CTkLabel(scroll_frame, text="No transactions recorded.", font=("sans-serif", 16))
+            lbl_empty.pack(pady=20)
+            return
+
+        for idx, item in enumerate(history):
+            t_id, value, created_at, bank_id, desc = item
+            
+            if not desc:
+                desc = "ENTRADA" if value >= 0 else "SAIDA"
+
+            #date
+            simple_date = created_at.split(' ')[0]
+            year, month, day = simple_date.split('-')
+            formatted_date = f"{day}/{month}/{year}"
+            
+            text_color = "#00FF2F" if value >= 0 else "#FF0000"
+            
+            formatted_desc = desc.upper()[:20]
+            line_text = f"{idx+1:^3} - {formatted_date:^12}  |  {formatted_desc:<20}  |  R$ {value:>9.2f}"
+            
+            lbl_item = ctk.CTkLabel(scroll_frame, text=line_text, font=("Courier", 14, "bold"), text_color=text_color)
+            lbl_item.pack(anchor="w")
