@@ -25,12 +25,15 @@ class FinanceDB:
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS banks(
                 bank_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL
+                name TEXT NOT NULL UNIQUE,
+                value REAL DEFAULT 0.0
             )
         ''')
 
         self.connection.commit()
 
+
+    # transactions
     def get_balance(self):
         self.cursor.execute('SELECT SUM(value) FROM transactions')
         balance = self.cursor.fetchone()[0]
@@ -38,11 +41,37 @@ class FinanceDB:
         if balance: return balance
         else: return 0.0
 
-    def get_historic(self, limit=5):
+    def get_historic(self, limit=10):
         self.cursor.execute('SELECT * FROM transactions ORDER BY created_at DESC LIMIT (?)', (limit,))
         historic = self.cursor.fetchall()
         return historic
 
     def insert_transaction(self, value, description=""):
         self.cursor.execute('INSERT INTO transactions (value, description) VALUES (?,?)',(value, description))
+        self.connection.commit()
+
+
+    # banks
+    def insert_bank(self, name):
+        self.cursor.execute('INSERT INTO banks (name) VALUES (?)', (name,))
+        self.connection.commit()
+
+    def get_banks(self):
+        self.cursor.execute('SELECT * FROM banks')
+        banks = self.cursor.fetchall()
+        return banks
+
+    def get_patrimonio(self):
+            self.cursor.execute('SELECT SUM(value) FROM banks')
+            patrimonio = self.cursor.fetchone()[0]
+    
+            if patrimonio: return patrimonio
+            else: return 0.0
+
+    def update_bank_value(self, name, value):
+        self.cursor.execute('''
+            UPDATE banks 
+            SET value = ?
+            WHERE name = ?
+        ''', (value, name))
         self.connection.commit()
