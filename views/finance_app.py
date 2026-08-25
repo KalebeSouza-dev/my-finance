@@ -9,7 +9,7 @@ class FinanceAPP:
         self.db = db 
 
         # window
-        root.title("My Finance") 
+        root.title("Saldo Corrente") 
         root.geometry("300x230")
         root.resizable(False, False)
 
