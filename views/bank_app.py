@@ -10,8 +10,11 @@ class BankAPP:
         root.geometry("300x300")
         root.resizable(False, False)
 
-        self.input_bank = ctk.CTkEntry(self.root, font=("sans-serif", 16), width=175, placeholder_text="Adicionar Banco") 
+        self.input_bank = ctk.CTkEntry(self.root, font=("sans-serif", 16), width=175, placeholder_text="Nome do banco") 
         self.input_bank.pack(pady=5)
+
+        self.input_bank.bind("<Return>", self.add_bank) 
+        self.input_bank.bind("<KP_Enter>", self.add_bank)
 
         self.btn_add = ctk.CTkButton(root, text="Adicionar Banco", width=175, command=self.add_bank) 
         self.btn_add.pack(pady=5)
@@ -21,7 +24,7 @@ class BankAPP:
 
         self.show_account()
 
-    def add_bank(self):
+    def add_bank(self, event=None):
         name = self.input_bank.get()
 
         if name.strip(): 
