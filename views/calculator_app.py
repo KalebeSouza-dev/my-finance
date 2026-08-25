@@ -33,17 +33,30 @@ class CalculatorAPP:
         self.btn_calcular.pack(pady=7)
 
 
-        # frame result
+        # RESULT
         self.result_frame = ctk.CTkFrame(root, fg_color="transparent")
-        self.result_frame.pack(pady=5, fill="x", padx=10)
+        self.result_frame.pack(pady=10, fill="x", padx=15)
 
-        self.lbl_investido = ctk.CTkLabel(self.result_frame, text="Investido: R$ 0.00")
-        self.lbl_investido.pack(side="left", expand=True)
-        self.lbl_juros = ctk.CTkLabel(self.result_frame, text="Juros: R$ 0.00")
-        self.lbl_juros.pack(side="right", expand=True)
+        # Box 1: Investido
+        self.box_investido = ctk.CTkFrame(self.result_frame, fg_color="#2b2b2b", border_width=1, border_color="#565b5e")
+        self.box_investido.pack(side="left", expand=True, fill="both", padx=(0, 5)) # padx separa as duas caixas no meio
 
-        self.lbl_final = ctk.CTkLabel(root, text="Valor Final: R$ 0.00", font=("Arial", 16, "bold"))
-        self.lbl_final.pack(pady=10)
+        self.lbl_investido = ctk.CTkLabel(self.box_investido, text="Investido\nR$ 0.00")
+        self.lbl_investido.pack(pady=10, padx=10)
+
+        # Box 2: Juros
+        self.box_juros = ctk.CTkFrame(self.result_frame, fg_color="#2b2b2b", border_width=1, border_color="#565b5e")
+        self.box_juros.pack(side="right", expand=True, fill="both", padx=(5, 0))
+
+        self.lbl_juros = ctk.CTkLabel(self.box_juros, text="Juros\nR$ 0.00")
+        self.lbl_juros.pack(pady=10, padx=10)
+
+        # Box 3: Valor Final
+        self.box_final = ctk.CTkFrame(root, fg_color="#1f538d", corner_radius=6) 
+        self.box_final.pack(pady=5, fill="x", padx=15)
+
+        self.lbl_final = ctk.CTkLabel(self.box_final, text="Valor Final: R$ 0.00", font=("Arial", 16, "bold"), text_color="white")
+        self.lbl_final.pack(pady=12)
 
     def exibir_calculo(self, event=None):
         try:
