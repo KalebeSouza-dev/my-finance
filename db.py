@@ -26,7 +26,7 @@ class FinanceDB:
             CREATE TABLE IF NOT EXISTS banks(
                 bank_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL UNIQUE,
-                value REAL DEFAULT 0.0,
+                value REAL DEFAULT 0.0
             )
         ''')
 
