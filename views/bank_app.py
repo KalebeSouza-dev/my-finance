@@ -39,11 +39,10 @@ class BankAPP:
             return
         
         for idx, bank in enumerate(banks):
-            id, name = bank
+            id, name, value = bank
 
-            text = f"{name:<20} | R$ 00,00"
+            text = f"{name:<20} | R$ {value:^4.2f}"
             lbl_item = ctk.CTkLabel(self.scroll_frame, text=text, font=("Courier", 14, "bold"))
             lbl_item.pack(anchor="w")
 
         self.root.update_idletasks()
-        

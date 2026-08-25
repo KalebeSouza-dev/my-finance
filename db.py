@@ -25,7 +25,8 @@ class FinanceDB:
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS banks(
                 bank_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name TEXT NOT NULL UNIQUE
+                name TEXT NOT NULL UNIQUE,
+                value REAL DEFAULT 0.0,
             )
         ''')
 
@@ -58,5 +59,12 @@ class FinanceDB:
     def get_banks(self):
         self.cursor.execute('SELECT * FROM banks')
         banks = self.cursor.fetchall()
-
         return banks
+
+    def update_bank(self, name, value):
+        self.cursor.execute('''
+            UPDATE banks 
+            SET value = ?
+            WHERE name = ?
+        ''', (value, name))
+        self.connection.commit()
