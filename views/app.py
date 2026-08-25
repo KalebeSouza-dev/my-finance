@@ -17,7 +17,7 @@ class App:
         self.btn_add = ctk.CTkButton(root, text="Saldo Corrente", width=175, command=self.open_finance) 
         self.btn_add.pack(pady=5) 
 
-        self.btn_add = ctk.CTkButton(root, text="Patrimônio", width=175, command=self.open_bank) 
+        self.btn_add = ctk.CTkButton(root, text="Patrimônio Pessoal", width=175, command=self.open_bank) 
         self.btn_add.pack(pady=5) 
 
         self.btn_add = ctk.CTkButton(root, text="Calculadora de Juros", width=175, command=self.open_calculator) 

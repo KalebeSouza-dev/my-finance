@@ -61,7 +61,14 @@ class FinanceDB:
         banks = self.cursor.fetchall()
         return banks
 
-    def update_bank(self, name, value):
+    def get_patrimonio(self):
+            self.cursor.execute('SELECT SUM(value) FROM banks')
+            patrimonio = self.cursor.fetchone()[0]
+    
+            if patrimonio: return patrimonio
+            else: return 0.0
+
+    def update_bank_value(self, name, value):
         self.cursor.execute('''
             UPDATE banks 
             SET value = ?
