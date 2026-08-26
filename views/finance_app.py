@@ -70,7 +70,7 @@ class FinanceAPP:
             return
         
         self.history_window = ctk.CTkToplevel(self.root)
-        self.history_window.title("Transaction History")
+        self.history_window.title("Histórico de Transações")
         self.history_window.geometry("550x300")
         
         self.history_window.focus()

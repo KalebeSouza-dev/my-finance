@@ -7,7 +7,7 @@ class CalculatorAPP:
 
         # window
         root.title("Calculadora de Juros") 
-        root.geometry("300x400")
+        root.geometry("300x320")
         root.resizable(False, False)
 
         # inputs
